@@ -28,6 +28,7 @@ output "public_ip" {
   description = "The public ip of web server"
 }
 
+
 # TF_VAR_server_port=8080
 
 variable "server_port" {
@@ -37,8 +38,13 @@ variable "server_port" {
   
 }
 
+variable "cluster_name" {
+	description = "The name of cluster phase"
+	type = string
+}
+
 resource "aws_security_group" "instance" {
-	name = "teraaform-example-instance"
+	name = "${var.cluster_name}-teraaform-example-instance"
 
 	ingress {
 		from_port = var.server_port
@@ -60,6 +66,6 @@ resource "aws_instance" "example" {
 			EOF
 
 	tags = {
-		Name = "Terraform-example"
+		Name = "${var.cluster_name}-Terraform-example"
 	}
 }
