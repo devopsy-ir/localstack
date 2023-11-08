@@ -1,6 +1,4 @@
 
-
-
 resource "aws_launch_configuration" "example" {
     image_id = "ami-ff0fea8310f3"
 	instance_type = "t3.nano"
@@ -11,6 +9,13 @@ resource "aws_launch_configuration" "example" {
               echo "Hello, World" > index.html
               nohup busybox httpd -f -p ${var.server_port} &
               EOF
+
+# Render the User Data script as a template
+  user_data = templatefile("user-data.sh", {
+	server_port = var.server_port
+	db_address = data.terraform_remote_state.db.outputs.address
+	db_port = data.terraform_remote_state.db.outputs.port
+})
 
   # Required when using a launch configuration with an auto scaling group.
   lifecycle {

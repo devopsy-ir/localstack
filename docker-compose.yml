@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   localstack:
-    restart: always
+#    restart: always
     container_name: "${LOCALSTACK_DOCKER_NAME-localstack_main}"
     image: localstack/localstack
     ports:
@@ -20,7 +20,7 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock"
       - ./ec2:/opt/code/localstack/ec2
   app:
-    restart: always
+#    restart: always
     build:
       context: .
     ports:
